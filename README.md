@@ -1,4 +1,5 @@
 # Flappy Bird
+![Banner](https://i.pinimg.com/originals/8e/57/67/8e5767ca8bf4272ccb9ab05ea712951b.jpg)
 ___
 ## Код
 *Импорт и создание переменных*
@@ -82,3 +83,5 @@ while run:
     pygame.display.update()
     fpsclck.tick(50)
 ```
+# Ссылки на автора
+[VK](https://vk.com/f_i_t_r_o_n)
