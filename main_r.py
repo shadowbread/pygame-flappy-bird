@@ -11,11 +11,22 @@ tube_y = 150
 score = 0
 mode = "game"
 record = 0
-bird_color = (255, 255, 0)
 
 run = True
 
-def get_record(): # достать рекорд из файла
+#runned
+try:
+    f = open('runned.txt', 'r')
+    runned = str(int(f.read()) + 1)
+    w = open('runned.txt', 'w')
+    w.write(runned)
+    w.close()
+except FileNotFoundError:
+    f = open('runned.txt', 'w')
+    f.write('1')
+    f.close()
+
+def get_record():
     global record
     try:
         open('record.txt', 'r')
@@ -27,7 +38,7 @@ def get_record(): # достать рекорд из файла
     record = int(r.read())
 get_record()
 
-def check_record(): # проверка на рекорд и запись его в файл
+def check_record():
     global score, record
     if score > record:
         record = score
@@ -37,28 +48,24 @@ def check_record(): # проверка на рекорд и запись его 
     score = 0
 
 def game():
-    global screen, player_x, player_y, tube_x, tube_y, score, record, bird_color
-    pygame.display.set_caption("[Flappy bird] Очки: " + str(score) + " Рекорд: " + str(record)) # переименнование окна
-    # отрисовка спрайтов
+    global screen, player_x, player_y, tube_x, tube_y, score, record
+    pygame.display.set_caption("[Flappy bird] Очки: " + str(score) + " Рекорд: " + str(record))
     screen.fill((0, 0, 0))
     pygame.draw.rect(screen, (0, 255, 0), (tube_x, 0, 50, 400))
     pygame.draw.rect(screen, (0, 200, 0), (tube_x - 10, tube_y - 20, 70, 90))
     pygame.draw.rect(screen, (0, 0, 0), (tube_x - 10, tube_y, 70, 50))
-    pygame.draw.rect(screen, bird_color, (player_x, player_y, 20, 20))
-    # проверка на проигрыш
+    pygame.draw.rect(screen, (255, 255, 0), (player_x, player_y, 20, 20))
     if player_y < 350:
         player_y += 3
     if tube_x > -50:
         tube_x -= 2
     if tube_x < 50:
-        # если проиграли:
         if player_y >= tube_y and player_y < tube_y + 50:
             score += 1
         else:
             check_record()
         tube_x = 490
         tube_y = random.randint(50, 300)
-    # обработчик клавиш
     keys = pygame.key.get_pressed()
     if keys[pygame.K_SPACE] and player_y > 5:
         player_y -= 5
